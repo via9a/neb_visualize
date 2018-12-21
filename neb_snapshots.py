@@ -5,6 +5,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
+
+"""
+Author: Vilhjalmur Asgeirsson (UI, 2018)
+"""
+
 def read_spline_file(fname):
     with open(fname) as input_data:
         listi = []
@@ -70,11 +75,11 @@ if __name__ == "__main__":
     # ============================================
     # Print header
     # ============================================
-    print '=========================================='
-    print '     Generation of snapshots from,       '
-    print '              ORCA NEB       '
-    print '=========================================='
-    print ' '
+    print('==========================================')
+    print('     Generation of snapshots from,       ')
+    print('              ORCA NEB       ')
+    print('==========================================')
+    print(' ')
 
     # ============================================
     # set default values for input arguments
@@ -114,8 +119,8 @@ if __name__ == "__main__":
     else:
         print_str = 'snapshots'
         
-    print '=> plotting from iteration %i to %i' % (start_from, end_at)
-    print '=> type of plot: %s\n' % print_str
+    print('=> plotting from iteration %i to %i' % (start_from, end_at))
+    print('=> type of plot: %s\n' % print_str)
 
     # - - - - - - - - - - - - - - - - - - - - - - - 
     # Let the plotting begin...
@@ -151,34 +156,32 @@ if __name__ == "__main__":
     path = os.getcwd()
     working_dir = path+'/neb_frames'
     if os.path.isdir(working_dir):
-        print 'Directory %s found!' % working_dir
-        print '    => Existing files are overwritten!'
+        print('Directory %s found!' % working_dir)
+        print('    => Existing files are overwritten!')
     else:
         os.mkdir(working_dir)
-        print 'Working dir: %s' % working_dir
+        print('Working dir: %s' % working_dir)
     os.chdir(working_dir)
 
     one_iter = False
     if no_of_iters == 1:
         if 'final' in fname.lower():
-            print '*** Note that %s contains only the last iteration of a NEB/CI-NEB run  ***' % fname
+            print('*** Note that %s contains only the last iteration of a NEB/CI-NEB run  ***' % fname)
         else:
-            print 'Note that %s contains only one iteration?   ***' % fname
+            print('Note that %s contains only one iteration?   ***' % fname)
         one_iter = True
 
     # ==========================================================
     # Read and plot the spline and images of the .interp file 
     # ==========================================================
     if not one_iter:
-        print 'Iteration: '
+        print('Iteration: ')
 
     for i in range(start_from, end_at):
         saveI = i
         if not one_iter:
-            if ((i+1) % 10) == 0:
-                print '%3i' % i
-            else:
-                print ('%3i ' % i),
+            print('%3i' % i)
+            
 
         arcS,  Eimg    = read_images(start_images[i]+1, listi)       
         arcS2, Eimg2   = read_spline(start_spline[i]+1, listi)
@@ -214,8 +217,8 @@ if __name__ == "__main__":
             plt.title( "Iter.:"+str(start_from)+" to "+str(saveI) )
         plt.savefig('neb_full.png')
 
-    print ''
-    print '=========================================='
-    print 'Execution terminated (see /neb_frames).'
-    print '=========================================='
+    print('')
+    print('==========================================')
+    print('Execution terminated (see /neb_frames).')
+    print('==========================================')
 
