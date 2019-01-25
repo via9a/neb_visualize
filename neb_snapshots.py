@@ -74,6 +74,7 @@ if __name__ == "__main__":
     print('     Generation of snapshots from        ')
     print('              ORCA NEB       ')
     print('==========================================')
+    print('Modified: 25.01.2019')
     print(' ')
 
     # ============================================
