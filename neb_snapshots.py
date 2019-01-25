@@ -5,11 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-
-"""
-Author: Vilhjalmur Asgeirsson (UI, 2018)
-"""
-
 def read_spline_file(fname):
     with open(fname) as input_data:
         listi = []
@@ -76,7 +71,7 @@ if __name__ == "__main__":
     # Print header
     # ============================================
     print('==========================================')
-    print('     Generation of snapshots from,       ')
+    print('     Generation of snapshots from        ')
     print('              ORCA NEB       ')
     print('==========================================')
     print(' ')
@@ -88,10 +83,11 @@ if __name__ == "__main__":
     only_one_frame   = True  
     start_from       = 0  
     end_at           = -1 
-
     # ============================================
     # get input arguments
     # ============================================
+    
+    # Notice that the ordering of the input arguments matter!
     for i in range(1, len(sys.argv)):
         if i == 1:
             fname=sys.argv[i] 
@@ -115,7 +111,7 @@ if __name__ == "__main__":
             
 
     if only_one_frame:
-        print_str = 'single frame'
+        print_str = 'all in single frame'
     else:
         print_str = 'snapshots'
         
@@ -138,7 +134,6 @@ if __name__ == "__main__":
 
     if end_at == -1:
         end_at = no_of_iters
-    
 
     # ==========================================================
     # Make some checks...
@@ -155,12 +150,14 @@ if __name__ == "__main__":
     # ==========================================================
     path = os.getcwd()
     working_dir = path+'/neb_frames'
+    
     if os.path.isdir(working_dir):
         print('Directory %s found!' % working_dir)
         print('    => Existing files are overwritten!')
     else:
         os.mkdir(working_dir)
         print('Working dir: %s' % working_dir)
+
     os.chdir(working_dir)
 
     one_iter = False
@@ -168,7 +165,7 @@ if __name__ == "__main__":
         if 'final' in fname.lower():
             print('*** Note that %s contains only the last iteration of a NEB/CI-NEB run  ***' % fname)
         else:
-            print('Note that %s contains only one iteration?   ***' % fname)
+            print('%s contains only one iteration?   ***' % fname)
         one_iter = True
 
     # ==========================================================
@@ -204,18 +201,27 @@ if __name__ == "__main__":
             # Plot frames together
             if i == end_at-1:
                 plt.plot(newS2, newE2, '-r', label='Last iter.')
-                plt.plot(newS1, newE1, '.r', Markersize=5.5)
+                plt.plot(newS1, newE1, '.r', Markersize=5.5)                
             else:
                 plt.plot(newS2, newE2, '-k', label='Interp.')
                 plt.plot(newS1, newE1, '.y', Markersize=5.5, label='NEB img.')
 
+    
     # save whole trajectory
     if only_one_frame:
         plt.xlabel("Reaction path")
         plt.ylabel("Energy")
         if not one_iter:
             plt.title( "Iter.:"+str(start_from)+" to "+str(saveI) )
-        plt.savefig('neb_full.png')
+        plt.savefig('neb_optimization.png')
+
+        plt.clf()
+        plt.plot(newS2, newE2, '-k', label='Interp.')
+        plt.plot(newS1, newE1, '.r', label='NEB img.')
+        plt.xlabel("Reaction path")
+        plt.ylabel("Energy")
+        plt.savefig('neb_lastiter.png')
+
 
     print('')
     print('==========================================')
