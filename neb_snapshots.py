@@ -172,13 +172,13 @@ if __name__ == "__main__":
     # ==========================================================
     # Read and plot the spline and images of the .interp file 
     # ==========================================================
-    if not one_iter:
-        print('Iteration: ')
+    #if not one_iter:
+    #    print('Iteration: ')
 
     for i in range(start_from, end_at):
         saveI = i
-        if not one_iter:
-            print('%3i' % i)
+     #   if not one_iter:
+     #       print('%3i' % i)
             
 
         arcS,  Eimg    = read_images(start_images[i]+1, listi)       
