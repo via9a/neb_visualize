@@ -29,8 +29,8 @@ def read_images(start_point, listi):
     while True:
         if listi[index][0].strip().upper() == 'INTERP.:' or listi[index][0].strip().upper() == 'E':
             break
-        arclength.append( float(listi[index][0]) )
-        energy.append( float(listi[index][1]) )
+        arclength.append( float(listi[index][1]) )
+        energy.append( float(listi[index][2]) )
         index += 1
     return arclength, energy
 
@@ -41,8 +41,8 @@ def read_spline(start_point, listi):
     while True:
         if listi[index][0].strip().upper() == 'ITERATION:' or listi[index][0].strip().upper() == 'E':
             break
-        arclength.append( float(listi[index][0]) )
-        energy.append( float(listi[index][1]) )
+        arclength.append( float(listi[index][1]) )
+        energy.append( float(listi[index][2]) )
         index += 1
         if  index == len(listi):
             break
@@ -65,29 +65,27 @@ if __name__ == "__main__":
     (in the given order)
 
     Authors: Vilhjalmur Asgeirsson, Benedikt Orri Birgirsson (UI, 2018)
+    email for bugs and requests: via9@hi.is, bob9@hi.is
     """
 
     # ============================================
     # Print header
     # ============================================
     print('==========================================')
-    print('     Generation of snapshots from        ')
-    print('              ORCA NEB       ')
+    print('     Optimization Profile: ORCA-NEB')
     print('==========================================')
-    print('Modified: 25.01.2019')
-    print(' ')
+    print('Modified: 14.08.2019')
 
     # ============================================
     # set default values for input arguments
     # ============================================
     fname            = 'orca.interp'
-    only_one_frame   = True  
     start_from       = 0  
     end_at           = -1 
+
     # ============================================
     # get input arguments
     # ============================================
-    
     # Notice that the ordering of the input arguments matter!
     for i in range(1, len(sys.argv)):
         if i == 1:
@@ -104,26 +102,12 @@ if __name__ == "__main__":
                 end_at = int(sys.argv[i])
             except:
                 raise TypeError("Invalid type for the third argument. Expecting int")
-        elif i == 4:
-            only_one_frame = convert_bool(sys.argv[i])
-            
         else:
-            raise RuntimeError("Too many input arguments. Usage: python neb_snapshots.py basename.interp start_at<int> end_at<int> full<bool>")
-            
-
-    if only_one_frame:
-        print_str = 'all in single frame'
-    else:
-        print_str = 'snapshots'
-        
-    print('=> plotting from iteration %i to %i' % (start_from, end_at))
-    print('=> type of plot: %s\n' % print_str)
-
+            raise RuntimeError("Too many input arguments. Usage: python neb_snapshots.py basename.interp start_at<int> end_at<int>")
+    print('=> looking at iteration %i to %i' % (start_from, end_at))
     # - - - - - - - - - - - - - - - - - - - - - - - 
     # Let the plotting begin...
     # - - - - - - - - - - - - - - - - - - - - - - - 
-    
-
     # ==========================================================
     # We read .interp file only once into 'listi'
     # and the starting points of each 'images' and 'interp'
@@ -139,7 +123,6 @@ if __name__ == "__main__":
     # ==========================================================
     # Make some checks...
     # =========================================================
-
     if len(start_images) != len(start_spline):
         raise RuntimeError("Corrupt spline file!")
 
@@ -172,60 +155,42 @@ if __name__ == "__main__":
     # ==========================================================
     # Read and plot the spline and images of the .interp file 
     # ==========================================================
-    #if not one_iter:
-    #    print('Iteration: ')
-
     for i in range(start_from, end_at):
-        saveI = i
-     #   if not one_iter:
-     #       print('%3i' % i)
-            
-
+        # read spline and images from list: listi
         arcS,  Eimg    = read_images(start_images[i]+1, listi)       
         arcS2, Eimg2   = read_spline(start_spline[i]+1, listi)
-        
-        # Convert atomic units to eV and angstr.
-        newE1 = np.array(Eimg)#*27.211396132
-        newE2 = np.array(Eimg2)#*27.211396132
-        newS1 = np.array(arcS)#/1.889725989
-        newS2 = np.array(arcS2)#/1.889725989
 
-        if not only_one_frame:
-            # Generate and save frame
-            plt.plot(newS2, newE2, '-k', label='Interp.')
-            plt.plot(newS1, newE1, '.r', Markersize=5.5, label='NEB img.')
-            plt.xlabel("Reaction path")
-            plt.ylabel("Energy")
-            plt.savefig('frame_'+str(saveI)+'.png')
-            plt.clf()
+        if i == start_from:
+            # initial frame is black
+            plt.plot(arcS2, Eimg2, '-k')
+            plt.plot(arcS, Eimg, '.k', Markersize=6.0)
+        elif i == end_at-1:
+            # final frame is red
+            plt.plot(arcS2, Eimg2, '-', Color=[0.6, 0.0, 0.0],LineWidth=1.5)
+            plt.plot(arcS, Eimg, '.',Color=[0.6, 0.0, 0.0], Markersize=8.0)                
         else:
-            # Plot frames together
-            if i == end_at-1:
-                plt.plot(newS2, newE2, '-r', label='Last iter.')
-                plt.plot(newS1, newE1, '.r', Markersize=5.5)                
-            else:
-                plt.plot(newS2, newE2, '-k', label='Interp.')
-                plt.plot(newS1, newE1, '.y', Markersize=5.5, label='NEB img.')
+            # interm. frames are gray
+            plt.plot(arcS2, Eimg2, '-',Color=[0.4, 0.4, 0.4]) 
+            plt.plot(arcS, Eimg, '.',Color=[0.4, 0.4, 0.4],  Markersize=4.0)
 
     
-    # save whole trajectory
-    if only_one_frame:
-        plt.xlabel("Reaction path")
-        plt.ylabel("Energy")
-        if not one_iter:
-            plt.title( "Iter.:"+str(start_from)+" to "+str(saveI) )
-        plt.savefig('neb_optimization.png')
-
-        plt.clf()
-        plt.plot(newS2, newE2, '-k', label='Interp.')
-        plt.plot(newS1, newE1, '.r', label='NEB img.')
-        plt.xlabel("Reaction path")
-        plt.ylabel("Energy")
-        plt.savefig('neb_lastiter.png')
+    # save whole profile
+    plt.xlabel("Displacement [Bohr]", FontSize=15)
+    plt.ylabel("Energy [Ha]", FontSize=15)
+    plt.title( "Iter.: %i to %i" % (start_from, end_at-1) )
+    plt.savefig('neb_optimization.png')
 
 
-    print('')
+    # Make last iter.
+    plt.clf()
+    plt.plot(arcS2, Eimg2, '-',Color=[0.6, 0.0, 0.0], LineWidth=1.5)
+    plt.plot(arcS, Eimg, '.',Color=[0.6, 0.0, 0.0], MarkerSize=8.0)
+    plt.xlabel("Displacement [Bohr]",FontSize=15)
+    plt.ylabel("Energy [Ha]", FontSize=15)
+    plt.savefig('neb_lastiter.png')
+
     print('==========================================')
     print('Execution terminated (see /neb_frames).')
     print('==========================================')
 
+    
