@@ -47,13 +47,6 @@ def read_spline(start_point, listi):
         if  index == len(listi):
             break
     return arclength, energy
-
-def convert_bool(val):
-    if val.upper() == 'FALSE':
-        val = False
-    elif val.upper() == 'TRUE':
-        val = True
-    return val
     
 if __name__ == "__main__":
 
