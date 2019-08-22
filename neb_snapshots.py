@@ -11,7 +11,8 @@ def read_spline_file(fname):
         images = []
         spline = []
         for i,line in enumerate(input_data):
-            if line == '\n':
+            line = line.strip()
+            if line == '\n' or not line:
                 listi.append('E')
             else:
                 line=line.split()
