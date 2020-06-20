@@ -5,6 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
+plt.style.use('fivethirtyeight')
+
 def read_spline_file(fname):
     with open(fname) as input_data:
         listi = []
@@ -127,8 +129,9 @@ if __name__ == "__main__":
     # Create dir. neb_frames (you can comment out this section)
     # ==========================================================
     path = os.getcwd()
-    working_dir = path+'/neb_frames'
-    
+#    working_dir = path+'/neb_frames'
+    working_dir = path
+
     if os.path.isdir(working_dir):
         print('Directory %s found!' % working_dir)
         print('    => Existing files are overwritten!')
@@ -156,15 +159,18 @@ if __name__ == "__main__":
 
         if i == start_from:
             # initial frame is black
-            plt.plot(arcS2, Eimg2, '-k')
-            plt.plot(arcS, Eimg, '.k', Markersize=6.0)
+            plt.plot(arcS2, Eimg2, '-C0')
+            plt.plot(arcS, Eimg, '.C0', Markersize=6.0)
         elif i == end_at-1:
             # final frame is red
-            plt.plot(arcS2, Eimg2, '-', Color=[0.6, 0.0, 0.0],LineWidth=1.5)
-            plt.plot(arcS, Eimg, '.',Color=[0.6, 0.0, 0.0], Markersize=8.0)                
+#            colr = [0.6, 0.0, 0.0]
+            colr = 'C1'
+            plt.plot(arcS2, Eimg2, '-', Color=colr,LineWidth=1.5)
+            plt.plot(arcS, Eimg, '.',Color=colr, Markersize=8.0)                
         else:
             # interm. frames are gray
-            plt.plot(arcS2, Eimg2, '-',Color=[0.4, 0.4, 0.4]) 
+#            plt.plot(arcS2, Eimg2, '-',Color=[0.4, 0.4, 0.4]) 
+            plt.plot(arcS2, Eimg2, '-',Color=[0.4, 0.4, 0.4], LineWidth=1.0) 
             plt.plot(arcS, Eimg, '.',Color=[0.4, 0.4, 0.4],  Markersize=4.0)
 
     
@@ -172,19 +178,28 @@ if __name__ == "__main__":
     plt.xlabel("Displacement [Bohr]", FontSize=15)
     plt.ylabel("Energy [Ha]", FontSize=15)
     plt.title( "Iter.: %i to %i" % (start_from, end_at-1) )
+    plt.tight_layout()
     plt.savefig('neb_optimization.png')
 
 
     # Make last iter.
     plt.clf()
-    plt.plot(arcS2, Eimg2, '-',Color=[0.6, 0.0, 0.0], LineWidth=1.5)
-    plt.plot(arcS, Eimg, '.',Color=[0.6, 0.0, 0.0], MarkerSize=8.0)
+#    colr = [0.6, 0.0, 0.0]
+    colr = 'C1'
+    plt.plot(arcS2, Eimg2, '-',Color=colr, LineWidth=1.5)
+    plt.plot(arcS, Eimg, '.',Color=colr, MarkerSize=8.0)
+#    plt.xlabel("Displacement [Bohr]",FontSize=15)
+#    plt.ylabel("Energy [Ha]", FontSize=15)
     plt.xlabel("Displacement [Bohr]",FontSize=15)
     plt.ylabel("Energy [Ha]", FontSize=15)
+    plt.tight_layout()
+
     plt.savefig('neb_lastiter.png')
 
     print('==========================================')
-    print('Execution terminated (see /neb_frames).')
+#    print('Execution terminated (see /neb_frames).')
+    print('Execution terminated (see this directory).')
+
     print('==========================================')
 
     

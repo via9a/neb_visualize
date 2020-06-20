@@ -1,0 +1,5 @@
+*.interp
+\neb_frames
+*.png
+!neb_lastiter_methyl-F.png
+!neb_opt_methyl-F.png
