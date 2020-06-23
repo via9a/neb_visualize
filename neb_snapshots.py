@@ -181,13 +181,29 @@ if __name__ == "__main__":
     plt.tight_layout()
     plt.savefig('neb_optimization.png')
 
-
     # Make last iter.
     plt.clf()
 #    colr = [0.6, 0.0, 0.0]
     colr = 'C1'
     plt.plot(arcS2, Eimg2, '-',Color=colr, LineWidth=1.5)
     plt.plot(arcS, Eimg, '.',Color=colr, MarkerSize=8.0)
+    
+    'https://stackoverflow.com/questions/14313510/how-to-calculate-moving-average-using-numpy'
+    def rolling(x, w):
+        return np.convolve(x, np.ones(w), 'valid') / w
+    
+    from scipy.signal import argrelextrema
+
+#    use in case data is very noisy
+#    a,x=rolling(Eimg2,10), rolling(arcS2,10)
+    a,x = np.array(Eimg2), np.array(arcS2)
+    locmax_i = argrelextrema(a, np.greater)
+    peaks = a[locmax_i]
+    peaks_locs = x[locmax_i]
+
+    print('---LOCAL MAXIMA (E barriers) ---')
+    [print('E = {} Hartrees @ {} Bohrs'.format(peaks[i],peaks_locs[i])) for i in range(len(peaks))]
+
 #    plt.xlabel("Displacement [Bohr]",FontSize=15)
 #    plt.ylabel("Energy [Ha]", FontSize=15)
     plt.xlabel("Displacement [Bohr]",FontSize=15)
