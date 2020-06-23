@@ -8,9 +8,12 @@ basename.interp - name of the .interp file outputted from an ORCA NEB run (defau
 start_at_iter   - integer value for the number of iteration where the script should start plotting (default: 0)
 end_at_iter     - integer value for the number of iteration where the script should stop plotting  (default: -1 (last iter.))
 
-- Andrew: made some changes in the display of plots (see below) and where files go (to the same directory):
+## Changes by Andrew
+* display of plots (see below) and where files go (to the same directory):
 
+<img src="README__neb_optimization.png" alt="drawing" width="300"/></a> <img src="README__neb_lastiter.png" alt="drawing" width="300"/></a>
+NEB snapshot plots for the CH3Cl  + F- --> Cl- + CH3F reaction IRC path as calculated
 
-<img src="neb_opt_methyl-F.png" alt="drawing" width="300"/></a> <img src="neb_lastiter_methyl-F.png" alt="drawing" width="300"/></a>
+* printing of local energy barriers in terminal (i.e. 0.002 Hartrees @ 1.1 Bohrs; 0.004 Hartrees @ 1.4 Bohrs)
 
-NEB snapshot plots for the CH3Cl  + F- --> Cl- + CH3F reaction IRC path as calculated using orca (https://sites.google.com/site/orcainputlibrary/geometry-optimizations/transition-state-optimizations)
+ using orca (https://sites.google.com/site/orcainputlibrary/geometry-optimizations/transition-state-optimizations)
