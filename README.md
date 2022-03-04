@@ -5,7 +5,9 @@ Usage: `python neb_snapshots.py [orca.interp] [start iter] [end iter]`
 
 
 **orca.interp**	name of the .interp file outputted from an ORCA NEB run (default: orca.interp)
+
 **start iter**	integer value for the number of iteration where the script should start plotting (default: 0)
+
 **end iter** 	integer value for the number of iteration where the script should stop plotting  (default: -1 (last iter.))
 
 ## Changes by Andrew
