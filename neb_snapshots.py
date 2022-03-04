@@ -203,6 +203,12 @@ if __name__ == "__main__":
 
     print('---LOCAL MAXIMA (E barriers) ---')
     [print('E = {} Hartrees @ {} Bohrs'.format(peaks[i],peaks_locs[i])) for i in range(len(peaks))]
+    
+    timetime = int(time.time())
+    f = open("{}_{}.log.txt".format(timetime,fname), "a")
+    print('---LOCAL MAXIMA (E barriers) ---',file=f)
+    [print('E = {} Hartrees @ {} Bohrs'.format(peaks[i],peaks_locs[i]),file=f) for i in range(len(peaks))]
+    f.close()
 
 #    plt.xlabel("Displacement [Bohr]",FontSize=15)
 #    plt.ylabel("Energy [Ha]", FontSize=15)
