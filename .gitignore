@@ -2,5 +2,6 @@
 *.interp
 \neb_frames
 *.png
+!methyl-F*
 !README__neb_lastiter.png
 !README__neb_optimization.png
