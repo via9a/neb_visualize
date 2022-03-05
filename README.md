@@ -1,4 +1,4 @@
-# neb_visualize fork 
+# neb_visualize
 Process Nudged Elastic Band (NEB) data from an ORCA-NEB run
 
 Usage: 
