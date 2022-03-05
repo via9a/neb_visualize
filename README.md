@@ -1,8 +1,18 @@
-# neb_visualize
-script to visualize results from an ORCA-NEB run for ORCA 4.2
+# neb_visualize fork 
+Process Nudged Elastic Band (NEB) data from an ORCA-NEB run
 
-Usage: `python neb_snapshots.py [orca.interp] [start iter] [end iter]`
+Plot generation: 
 
+<img src="README__neb_optimization.png" alt="drawing" width="300"/></a> <img src="README__neb_lastiter.png" alt="drawing" width="300"/></a>
+
+NEB snapshot plots for the CH3Cl  + F- --> Cl- + CH3F reaction IRC path [calculated using orca](https://www.orcasoftware.de/tutorials_orca/react/nebts.html) 
+
+Usage: 
+
+```ruby
+chmod +x nebsnap.sh 								#make into executable (only do once)
+nebsnap.sh [orca.interp] [start iter] [end iter] 	#run nebsnap.sh executable
+```
 
 **orca.interp**	name of the .interp file outputted from an ORCA NEB run (default: orca.interp)
 
@@ -10,10 +20,7 @@ Usage: `python neb_snapshots.py [orca.interp] [start iter] [end iter]`
 
 **end iter** 	integer value for the number of iteration where the script should stop plotting  (default: -1 (last iter.))
 
-## Changes with this fork
-* display of plots (see below) and where files go (to the same directory):
 
-<img src="README__neb_optimization.png" alt="drawing" width="300"/></a> <img src="README__neb_lastiter.png" alt="drawing" width="300"/></a>
 
-NEB snapshot plots for the CH3Cl  + F- --> Cl- + CH3F reaction IRC path [calculated using orca](https://www.orcasoftware.de/tutorials_orca/react/nebts.html) 
+
 
