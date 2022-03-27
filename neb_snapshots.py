@@ -217,7 +217,8 @@ if __name__ == "__main__":
     plt.tight_layout()
 
     plt.savefig('neb_lastiter.png')
-
+    plt.show()
+    
     print('==========================================')
 #    print('Execution terminated (see /neb_frames).')
     print('Execution terminated (see this directory).')
