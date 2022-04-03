@@ -1,0 +1,2 @@
+---LOCAL MAXIMA (E barriers) ---
+E = 0.00645889 Hartrees @ 0.76422265 Bohrs

@@ -5,6 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
+plt.style.use('fivethirtyeight')
+
 def read_spline_file(fname):
     with open(fname) as input_data:
         listi = []
@@ -127,8 +129,9 @@ if __name__ == "__main__":
     # Create dir. neb_frames (you can comment out this section)
     # ==========================================================
     path = os.getcwd()
-    working_dir = path+'/neb_frames'
-    
+#    working_dir = path+'/neb_frames'
+    working_dir = path
+
     if os.path.isdir(working_dir):
         print('Directory %s found!' % working_dir)
         print('    => Existing files are overwritten!')
@@ -156,15 +159,18 @@ if __name__ == "__main__":
 
         if i == start_from:
             # initial frame is black
-            plt.plot(arcS2, Eimg2, '-k')
-            plt.plot(arcS, Eimg, '.k', Markersize=6.0)
+            plt.plot(arcS2, Eimg2, '-C0')
+            plt.plot(arcS, Eimg, '.C0', Markersize=6.0)
         elif i == end_at-1:
             # final frame is red
-            plt.plot(arcS2, Eimg2, '-', Color=[0.6, 0.0, 0.0],LineWidth=1.5)
-            plt.plot(arcS, Eimg, '.',Color=[0.6, 0.0, 0.0], Markersize=8.0)                
+#            colr = [0.6, 0.0, 0.0]
+            colr = 'C1'
+            plt.plot(arcS2, Eimg2, '-', Color=colr,LineWidth=1.5)
+            plt.plot(arcS, Eimg, '.',Color=colr, Markersize=8.0)                
         else:
             # interm. frames are gray
-            plt.plot(arcS2, Eimg2, '-',Color=[0.4, 0.4, 0.4]) 
+#            plt.plot(arcS2, Eimg2, '-',Color=[0.4, 0.4, 0.4]) 
+            plt.plot(arcS2, Eimg2, '-',Color=[0.4, 0.4, 0.4], LineWidth=1.0) 
             plt.plot(arcS, Eimg, '.',Color=[0.4, 0.4, 0.4],  Markersize=4.0)
 
     
@@ -172,19 +178,51 @@ if __name__ == "__main__":
     plt.xlabel("Displacement [Bohr]", FontSize=15)
     plt.ylabel("Energy [Ha]", FontSize=15)
     plt.title( "Iter.: %i to %i" % (start_from, end_at-1) )
+    plt.tight_layout()
     plt.savefig('neb_optimization.png')
-
 
     # Make last iter.
     plt.clf()
-    plt.plot(arcS2, Eimg2, '-',Color=[0.6, 0.0, 0.0], LineWidth=1.5)
-    plt.plot(arcS, Eimg, '.',Color=[0.6, 0.0, 0.0], MarkerSize=8.0)
+#    colr = [0.6, 0.0, 0.0]
+    colr = 'C1'
+    plt.plot(arcS2, Eimg2, '-',Color=colr, LineWidth=1.5)
+    plt.plot(arcS, Eimg, '.',Color=colr, MarkerSize=8.0)
+    
+    'https://stackoverflow.com/questions/14313510/how-to-calculate-moving-average-using-numpy'
+    def rolling(x, w):
+        return np.convolve(x, np.ones(w), 'valid') / w
+    
+    from scipy.signal import argrelextrema
+
+#    use in case data is very noisy
+#    a,x=rolling(Eimg2,10), rolling(arcS2,10)
+    a,x = np.array(Eimg2), np.array(arcS2)
+    locmax_i = argrelextrema(a, np.greater)
+    peaks = a[locmax_i]
+    peaks_locs = x[locmax_i]
+
+    print('---LOCAL MAXIMA (E barriers) ---')
+    [print('E = {} Hartrees @ {} Bohrs'.format(peaks[i],peaks_locs[i])) for i in range(len(peaks))]
+    
+    timetime = int(time.time())
+    f = open("{}_{}.log.txt".format(timetime,fname), "a")
+    print('---LOCAL MAXIMA (E barriers) ---',file=f)
+    [print('E = {} Hartrees @ {} Bohrs'.format(peaks[i],peaks_locs[i]),file=f) for i in range(len(peaks))]
+    f.close()
+
+#    plt.xlabel("Displacement [Bohr]",FontSize=15)
+#    plt.ylabel("Energy [Ha]", FontSize=15)
     plt.xlabel("Displacement [Bohr]",FontSize=15)
     plt.ylabel("Energy [Ha]", FontSize=15)
-    plt.savefig('neb_lastiter.png')
+    plt.tight_layout()
 
+    plt.savefig('neb_lastiter.png')
+    plt.show()
+    
     print('==========================================')
-    print('Execution terminated (see /neb_frames).')
+#    print('Execution terminated (see /neb_frames).')
+    print('Execution terminated (see this directory).')
+
     print('==========================================')
 
     
