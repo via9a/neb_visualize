@@ -157,30 +157,30 @@ if __name__ == "__main__":
         if i == start_from:
             # initial frame is black
             plt.plot(arcS2, Eimg2, '-k')
-            plt.plot(arcS, Eimg, '.k', Markersize=6.0)
+            plt.plot(arcS, Eimg, '.k', markersize=6.0)
         elif i == end_at-1:
             # final frame is red
-            plt.plot(arcS2, Eimg2, '-', Color=[0.6, 0.0, 0.0],LineWidth=1.5)
-            plt.plot(arcS, Eimg, '.',Color=[0.6, 0.0, 0.0], Markersize=8.0)                
+            plt.plot(arcS2, Eimg2, '-', color=[0.6, 0.0, 0.0],linewidth=1.5)
+            plt.plot(arcS, Eimg, '.',color=[0.6, 0.0, 0.0], markersize=8.0)
         else:
             # interm. frames are gray
-            plt.plot(arcS2, Eimg2, '-',Color=[0.4, 0.4, 0.4]) 
-            plt.plot(arcS, Eimg, '.',Color=[0.4, 0.4, 0.4],  Markersize=4.0)
+            plt.plot(arcS2, Eimg2, '-',color=[0.4, 0.4, 0.4])
+            plt.plot(arcS, Eimg, '.',color=[0.4, 0.4, 0.4],  markersize=4.0)
 
     
     # save whole profile
-    plt.xlabel("Displacement [Bohr]", FontSize=15)
-    plt.ylabel("Energy [Ha]", FontSize=15)
+    plt.xlabel("Displacement [Bohr]", fontsize=15)
+    plt.ylabel("Energy [Ha]", fontsize=15)
     plt.title( "Iter.: %i to %i" % (start_from, end_at-1) )
     plt.savefig('neb_optimization.png')
 
 
     # Make last iter.
     plt.clf()
-    plt.plot(arcS2, Eimg2, '-',Color=[0.6, 0.0, 0.0], LineWidth=1.5)
-    plt.plot(arcS, Eimg, '.',Color=[0.6, 0.0, 0.0], MarkerSize=8.0)
-    plt.xlabel("Displacement [Bohr]",FontSize=15)
-    plt.ylabel("Energy [Ha]", FontSize=15)
+    plt.plot(arcS2, Eimg2, '-',color=[0.6, 0.0, 0.0], linewidth=1.5)
+    plt.plot(arcS, Eimg, '.',color=[0.6, 0.0, 0.0], markersize=8.0)
+    plt.xlabel("Displacement [Bohr]",fontsize=15)
+    plt.ylabel("Energy [Ha]", fontsize=15)
     plt.savefig('neb_lastiter.png')
 
     print('==========================================')
